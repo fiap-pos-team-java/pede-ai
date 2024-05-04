@@ -1,0 +1,27 @@
+name: pedeai-infra
+
+services:
+
+  app:
+    container_name: pedeai-api
+    build: .
+    restart: always
+    environment:
+      - APPLICATION_PROFILE=dev
+      - APPLICATION_PORT=8080
+      - POSTGRES_URL=jdbc:postgresql://database:5432/pedeai
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+
+  database:
+    container_name: postgres
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=pedeai
+    ports:
+      - "5432:5432"

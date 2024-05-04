@@ -1,0 +1,46 @@
+spring:
+  profiles:
+    active: ${APPLICATION_PROFILE}
+
+  application:
+    name: pede-ai
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          lab:
+            non_contextual_creation: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  servlet:
+    context-path: /api
+
+    port: ${APPLICATION_PORT}
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: ${POSTGRES_URL}
+    username: postgres
+    password: postgres
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
