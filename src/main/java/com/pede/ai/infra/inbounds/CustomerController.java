@@ -37,7 +37,7 @@ public class CustomerController {
   }
 
   @GetMapping("/{cpf}")
-  public ResponseEntity<Object> getCustomerByCPF(@PathVariable(value="cpf") String cpf) {
+  public ResponseEntity<CustomerDto> getCustomerByCpf(@PathVariable(value="cpf") String cpf) {
     CustomerDto customer = CustomerMapper.toDto(customerManager.getByCpf(cpf));
 
     return ResponseEntity.ok().body(customer);
