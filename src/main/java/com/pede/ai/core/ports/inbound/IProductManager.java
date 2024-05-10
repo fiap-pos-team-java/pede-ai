@@ -9,5 +9,6 @@ public interface IProductManager {
     DomainProduct save(DomainProduct domainProduct);
     List<DomainProduct> getAll();
     DomainProduct getById(Long id);
+    String deleteById(Long id);
 
 }
