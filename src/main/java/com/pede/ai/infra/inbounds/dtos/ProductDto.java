@@ -1,6 +1,6 @@
 package com.pede.ai.infra.inbounds.dtos;
 
-import com.pede.ai.infra.commons.enums.ProductType;
+import com.pede.ai.core.commons.enums.ProductType;
 
 import java.time.LocalDateTime;
 

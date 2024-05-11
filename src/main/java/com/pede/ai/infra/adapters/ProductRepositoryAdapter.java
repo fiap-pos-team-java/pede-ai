@@ -1,5 +1,6 @@
 package com.pede.ai.infra.adapters;
 
+import com.pede.ai.core.commons.enums.ProductType;
 import com.pede.ai.core.domain.product.DomainProduct;
 import com.pede.ai.core.exceptions.CommitException;
 import com.pede.ai.core.exceptions.NotFoundException;
@@ -72,6 +73,14 @@ public class ProductRepositoryAdapter implements IProductRepositoryPort {
         return "Product deleted successfully";
     }
     throw new NotFoundException(String.format("ID %s not found", id));
+  }
+
+  @Override
+  public List<DomainProduct> getAllFromType(ProductType productType) {
+    return productRepository.findByType(productType)
+            .stream()
+            .map(ProductMapper::toDomain)
+            .toList();
   }
 
 }

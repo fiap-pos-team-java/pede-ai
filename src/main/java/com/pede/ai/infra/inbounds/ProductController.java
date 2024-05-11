@@ -1,12 +1,12 @@
 package com.pede.ai.infra.inbounds;
 
+import com.pede.ai.core.commons.enums.ProductType;
 import com.pede.ai.core.ports.inbound.IProductManager;
 import com.pede.ai.infra.commons.mappers.ProductMapper;
 import com.pede.ai.infra.inbounds.dtos.ProductDto;
 import com.pede.ai.infra.inbounds.forms.ProductForm;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,6 +62,17 @@ public class ProductController {
           @PathVariable(value="id") Long id
   ) {
     return ResponseEntity.ok().body(productManager.deleteById(id));
+  }
+
+  @GetMapping("/category/{type}")
+  public ResponseEntity<List<ProductDto>> getProductsByType(
+          @PathVariable(value="type") ProductType type
+  ) {
+    List<ProductDto> products = productManager.getAllFromType(type).stream()
+            .map(ProductMapper::toDto)
+            .toList();
+
+    return ResponseEntity.ok().body(products);
   }
 
 }

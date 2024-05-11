@@ -1,5 +1,6 @@
 package com.pede.ai.core.manager.product;
 
+import com.pede.ai.core.commons.enums.ProductType;
 import com.pede.ai.core.domain.product.DomainProduct;
 import com.pede.ai.core.ports.inbound.IProductManager;
 import com.pede.ai.core.ports.outbound.IProductRepositoryPort;
@@ -31,5 +32,8 @@ public class ProductManager implements IProductManager {
 
     @Override
     public String deleteById(Long id) { return iProductRepositoryPort.deleteById(id); }
+
+    @Override
+    public List<DomainProduct> getAllFromType(ProductType productType) { return iProductRepositoryPort.getAllFromType(productType); }
 
 }

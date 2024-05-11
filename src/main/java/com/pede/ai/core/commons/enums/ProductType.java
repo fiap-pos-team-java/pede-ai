@@ -1,4 +1,4 @@
-package com.pede.ai.infra.commons.enums;
+package com.pede.ai.core.commons.enums;
 
 public enum ProductType {
     LANCHE,

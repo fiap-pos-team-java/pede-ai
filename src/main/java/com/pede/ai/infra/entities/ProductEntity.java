@@ -1,6 +1,6 @@
 package com.pede.ai.infra.entities;
 
-import com.pede.ai.infra.commons.enums.ProductType;
+import com.pede.ai.core.commons.enums.ProductType;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -59,7 +59,7 @@ public class ProductEntity {
   @Column(name = "DES_PRICE")
   public float price;
 
-  @Enumerated(EnumType.STRING) // Specify STRING to store the enum name
+  @Enumerated(EnumType.STRING)
   @Column(name = "DES_TYPE")
   public ProductType type;
 
