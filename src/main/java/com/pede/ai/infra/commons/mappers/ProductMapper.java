@@ -4,7 +4,7 @@ import com.pede.ai.core.domain.product.DomainProduct;
 import com.pede.ai.infra.entities.ProductEntity;
 import com.pede.ai.infra.inbounds.dtos.ProductDto;
 
-public class ProductMapper {
+public abstract class ProductMapper {
 
   public static ProductEntity toEntity(DomainProduct domainProduct) {
     return new ProductEntity(

@@ -4,14 +4,16 @@ import com.pede.ai.core.domain.product.DomainProduct;
 import com.pede.ai.core.exceptions.CommitException;
 import com.pede.ai.core.exceptions.NotFoundException;
 import com.pede.ai.core.ports.outbound.IProductRepositoryPort;
-import com.pede.ai.infra.commons.ErrorMessage;
 import com.pede.ai.infra.commons.mappers.ProductMapper;
+import com.pede.ai.infra.entities.ProductEntity;
 import com.pede.ai.infra.outbounds.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Stream;
+
+import static com.pede.ai.infra.commons.mappers.ProductMapper.toDomain;
 
 @Service
 public class ProductRepositoryAdapter implements IProductRepositoryPort {
@@ -46,10 +48,28 @@ public class ProductRepositoryAdapter implements IProductRepositoryPort {
   }
 
   @Override
+  public DomainProduct update(Long id, DomainProduct domainProduct) {
+    DomainProduct product = toDomain(productRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException(String.format("ID %s not found", id))));
+
+    ProductEntity entity = new ProductEntity(
+            id,
+            domainProduct.name() != null ? domainProduct.name() : product.name(),
+            domainProduct.desc() != null ? domainProduct.desc() : product.desc(),
+            domainProduct.price() != 0 ? domainProduct.price() : product.price(),
+            domainProduct.type() != null ? domainProduct.type() : product.type(),
+            product.createdAt()
+    );
+
+    productRepository.save(entity);
+    return toDomain(entity);
+  }
+
+  @Override
   public String deleteById(Long id) {
     if (productRepository.existsById(id)) {
       productRepository.deleteById(id);
-      return "Produto deletado com sucesso.";
+        return "Product deleted successfully";
     }
     throw new NotFoundException(String.format("ID %s not found", id));
   }

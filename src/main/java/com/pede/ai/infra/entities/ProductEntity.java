@@ -27,6 +27,22 @@ public class ProductEntity {
     this.createdAt = createdAt;
   }
 
+  public ProductEntity(
+          Long id,
+          String name,
+          String desc,
+          float price,
+          ProductType type,
+          LocalDateTime createdAt
+  ) {
+    this.id = id;
+    this.name = name;
+    this.desc = desc;
+    this.price = price;
+    this.type = type;
+    this.createdAt = createdAt;
+  }
+
   public ProductEntity() {}
 
   @Id

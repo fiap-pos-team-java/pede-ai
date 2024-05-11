@@ -27,6 +27,9 @@ public class ProductManager implements IProductManager {
     public DomainProduct getById(Long id) { return iProductRepositoryPort.getById(id); }
 
     @Override
+    public DomainProduct update(Long id, DomainProduct domainProduct) { return iProductRepositoryPort.update(id, domainProduct); }
+
+    @Override
     public String deleteById(Long id) { return iProductRepositoryPort.deleteById(id); }
 
 }

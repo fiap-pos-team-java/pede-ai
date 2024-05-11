@@ -4,7 +4,9 @@ import com.pede.ai.core.ports.inbound.IProductManager;
 import com.pede.ai.infra.commons.mappers.ProductMapper;
 import com.pede.ai.infra.inbounds.dtos.ProductDto;
 import com.pede.ai.infra.inbounds.forms.ProductForm;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,14 +39,28 @@ public class ProductController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<ProductDto> getProductById(@PathVariable(value="id") Long id) {
+  public ResponseEntity<ProductDto> getProductById(
+          @PathVariable(value="id") Long id
+  ) {
     ProductDto product = ProductMapper.toDto(productManager.getById(id));
 
     return ResponseEntity.ok().body(product);
   }
 
+  @PatchMapping(path = "/{id}")
+  public ResponseEntity<ProductDto> updateProductById(
+          @PathVariable(value="id") Long id,
+          @Valid @RequestBody ProductForm productForm
+  ) {
+    ProductDto productDto = ProductMapper.toDto(productManager.update(id, productForm.toDomain()));
+
+    return ResponseEntity.ok().body(productDto);
+  }
+
   @DeleteMapping("/{id}")
-  public ResponseEntity<String> deleteProductById(@PathVariable(value="id") Long id) {
+  public ResponseEntity<String> deleteProductById(
+          @PathVariable(value="id") Long id
+  ) {
     return ResponseEntity.ok().body(productManager.deleteById(id));
   }
 
