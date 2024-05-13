@@ -1,6 +1,7 @@
 package com.pede.ai.infra.commons.handlers;
 
 import com.pede.ai.core.exceptions.CommitException;
+import com.pede.ai.core.exceptions.InvalidCpfException;
 import com.pede.ai.core.exceptions.NotFoundException;
 import com.pede.ai.infra.commons.ErrorMessage;
 import org.springframework.http.HttpStatus;
@@ -49,6 +50,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorMessage errorMessage = new ErrorMessage();
         errorMessage.setMessage(exception.getMessage());
         errorMessage.setHttpStatus(HttpStatus.NOT_FOUND);
+        errorMessage.setThrownAt(LocalDateTime.now());
+
+        return ResponseEntity.status(errorMessage.getHttpStatus().value()).body(errorMessage);
+    }
+
+    @ExceptionHandler(InvalidCpfException.class)
+    public ResponseEntity<ErrorMessage> invalidCpfException(
+            InvalidCpfException exception,
+            WebRequest webRequest
+    ) {
+        ErrorMessage errorMessage = new ErrorMessage();
+        errorMessage.setMessage(exception.getMessage());
+        errorMessage.setHttpStatus(HttpStatus.BAD_REQUEST);
         errorMessage.setThrownAt(LocalDateTime.now());
 
         return ResponseEntity.status(errorMessage.getHttpStatus().value()).body(errorMessage);

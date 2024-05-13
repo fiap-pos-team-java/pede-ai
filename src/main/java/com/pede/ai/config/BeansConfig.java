@@ -1,5 +1,6 @@
 package com.pede.ai.config;
 
+import com.pede.ai.core.commons.ValidateCpf;
 import com.pede.ai.core.manager.customer.CustomerManager;
 import com.pede.ai.core.manager.product.ProductManager;
 import com.pede.ai.core.ports.inbound.ICustomerManager;
@@ -33,5 +34,8 @@ public class BeansConfig {
     public IProductManager productManager() {
         return new ProductManager(productRepositoryPort());
     }
+
+    @Bean
+    public ValidateCpf isCPF() {return new ValidateCpf();}
 
 }
