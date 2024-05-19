@@ -1,6 +1,5 @@
 package com.pede.ai.infra.adapters;
 
-import com.pede.ai.core.commons.ValidateCpf;
 import com.pede.ai.core.domain.customer.DomainCustomer;
 import com.pede.ai.core.ports.outbound.ICustomerRepositoryPort;
 import com.pede.ai.core.exceptions.CommitException;
@@ -19,13 +18,8 @@ public class CustomerRepositoryAdapter implements ICustomerRepositoryPort {
   @Autowired
   private ICustomerRepository customerRepository;
 
-  @Autowired
-  private ValidateCpf validateCpf;
-
   @Override
   public DomainCustomer save(DomainCustomer domainCustomer) {
-    validateCpf.isCPF(domainCustomer.cpf());
-
     return Stream.of(domainCustomer)
             .map(CustomerMapper::toEntity)
             .map(customerEntity -> customerRepository.save(customerEntity))
@@ -43,8 +37,6 @@ public class CustomerRepositoryAdapter implements ICustomerRepositoryPort {
 
   @Override
   public DomainCustomer getByCpf(String cpf) {
-    validateCpf.isCPF(cpf);
-
     return customerRepository.findByCpf(cpf)
             .stream()
             .map(CustomerMapper::toDomain)

@@ -1,6 +1,6 @@
 package com.pede.ai.infra.adapters;
 
-import com.pede.ai.core.commons.ValidateCpf;
+import com.pede.ai.core.commons.Cpf;
 import com.pede.ai.core.exceptions.NotFoundException;
 import com.pede.ai.infra.entities.CustomerEntity;
 import com.pede.ai.infra.outbounds.ICustomerRepository;
@@ -24,7 +24,7 @@ public class CustomerRepositoryAdapterTest {
     private ICustomerRepository customerRepositoryMock;
 
     @Mock
-    private ValidateCpf validateCpf;
+    private Cpf validateCpf;
 
     @InjectMocks
     private CustomerRepositoryAdapter customerRepositoryAdapter;

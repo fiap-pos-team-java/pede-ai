@@ -1,5 +1,6 @@
 package com.pede.ai.infra.inbounds.forms;
 
+import com.pede.ai.core.commons.Cpf;
 import com.pede.ai.core.domain.customer.DomainCustomer;
 
 import java.time.LocalDateTime;
@@ -16,7 +17,7 @@ public record CustomerForm(
     null,
         this.name,
         this.email,
-        this.cpf,
+        new Cpf(this.cpf),
         LocalDateTime.now()
       );
   }

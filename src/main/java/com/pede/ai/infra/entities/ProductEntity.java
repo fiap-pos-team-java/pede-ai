@@ -3,6 +3,7 @@ package com.pede.ai.infra.entities;
 import com.pede.ai.core.commons.enums.ProductType;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import static com.pede.ai.infra.entities.ProductEntity.TABLE_NAME;
@@ -16,7 +17,7 @@ public class ProductEntity {
   public ProductEntity(
       String name,
       String desc,
-      float price,
+      BigDecimal price,
       ProductType type,
       LocalDateTime createdAt
   ) {
@@ -31,7 +32,7 @@ public class ProductEntity {
           Long id,
           String name,
           String desc,
-          float price,
+          BigDecimal price,
           ProductType type,
           LocalDateTime createdAt
   ) {
@@ -57,7 +58,7 @@ public class ProductEntity {
   public String desc;
 
   @Column(name = "DES_PRICE")
-  public float price;
+  public BigDecimal price;
 
   @Enumerated(EnumType.STRING)
   @Column(name = "DES_TYPE")

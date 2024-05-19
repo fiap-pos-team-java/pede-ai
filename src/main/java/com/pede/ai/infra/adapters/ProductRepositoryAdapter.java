@@ -11,6 +11,7 @@ import com.pede.ai.infra.outbounds.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -29,7 +30,7 @@ public class ProductRepositoryAdapter implements IProductRepositoryPort {
             .map(productEntity -> productRepository.save(productEntity))
             .map(ProductMapper::toDomain)
             .findFirst()
-            .orElseThrow(() -> new CommitException("The Product entity can not be saved"));
+            .orElseThrow(() -> new CommitException(String.format("The product %s entity can not be saved", domainProduct.name())));
   }
 
   @Override
@@ -57,7 +58,7 @@ public class ProductRepositoryAdapter implements IProductRepositoryPort {
             id,
             domainProduct.name() != null ? domainProduct.name() : product.name(),
             domainProduct.desc() != null ? domainProduct.desc() : product.desc(),
-            domainProduct.price() != 0 ? domainProduct.price() : product.price(),
+            !domainProduct.price().equals(BigDecimal.valueOf(0)) ? domainProduct.price() : product.price(),
             domainProduct.type() != null ? domainProduct.type() : product.type(),
             product.createdAt()
     );
@@ -66,13 +67,23 @@ public class ProductRepositoryAdapter implements IProductRepositoryPort {
     return toDomain(entity);
   }
 
+//  @Override
+//  public String deleteById(Long id) {
+//    if (productRepository.existsById(id)) {
+//      productRepository.deleteById(id);
+//        return "Product deleted successfully";
+//    }
+//    throw new NotFoundException(String.format("ID %s not found", id));
+//  }
+
   @Override
   public String deleteById(Long id) {
-    if (productRepository.existsById(id)) {
-      productRepository.deleteById(id);
-        return "Product deleted successfully";
-    }
-    throw new NotFoundException(String.format("ID %s not found", id));
+    return productRepository.findById(id)
+            .map(product -> {
+              productRepository.delete(product);
+              return "Product deleted successfully";
+            })
+            .orElseThrow(() -> new NotFoundException(String.format("ID %s not found", id)));
   }
 
   @Override

@@ -1,7 +1,7 @@
 package com.pede.ai.infra.commons.handlers;
 
 import com.pede.ai.core.exceptions.CommitException;
-import com.pede.ai.core.exceptions.InvalidCpfException;
+import com.pede.ai.core.exceptions.NotValidException;
 import com.pede.ai.core.exceptions.NotFoundException;
 import com.pede.ai.infra.commons.ErrorMessage;
 import org.springframework.http.HttpStatus;
@@ -55,9 +55,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(errorMessage.getHttpStatus().value()).body(errorMessage);
     }
 
-    @ExceptionHandler(InvalidCpfException.class)
+    @ExceptionHandler(NotValidException.class)
     public ResponseEntity<ErrorMessage> invalidCpfException(
-            InvalidCpfException exception,
+            NotValidException exception,
             WebRequest webRequest
     ) {
         ErrorMessage errorMessage = new ErrorMessage();

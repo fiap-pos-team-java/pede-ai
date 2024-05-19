@@ -1,30 +1,39 @@
 package com.pede.ai.core.commons;
 
-import com.pede.ai.core.exceptions.InvalidCpfException;
+import com.pede.ai.core.exceptions.NotValidException;
 
-public class ValidateCpf {
+public class Cpf {
 
     private int firstCheckDigit;
     private int secondCheckDigit;
-    private String cpf;
+    private String cpfNumber;
 
-    public void isCPF(String requestCpf) {
-        this.cpf = requestCpf;
+    public Cpf(String cpf) {
+        this.cpfNumber = cpf;
+        isCpfValid(cpf);
+    }
 
-        validateCPFLength();
+    public String getCpfNumber() {
+        return cpfNumber;
+    }
+
+    private void isCpfValid(String requestCpf) {
+        this.cpfNumber = requestCpf;
+
+        validateCpfLength();
         validateNonNumericCharacters();
         validateCheckDigits();
     }
 
-    private void validateCPFLength() {
-        if (this.cpf.length() != 11) {
-            throw new InvalidCpfException("Invalid CPF size");
+    private void validateCpfLength() {
+        if (this.cpfNumber.length() != 11) {
+            throw new NotValidException("Invalid CPF size");
         }
     }
 
     private void validateNonNumericCharacters() {
-        if (!cpf.matches("[0-9]+")) {
-            throw new InvalidCpfException("Invalid CPF characters");
+        if (!cpfNumber.matches("[0-9]+")) {
+            throw new NotValidException("Invalid CPF characters");
         }
     }
 
@@ -37,7 +46,7 @@ public class ValidateCpf {
     private void calculateFirstCheckDigit() {
         int sum = 0;
         for (int i = 0; i < 9; i++) {
-            int digit = Integer.parseInt(Character.toString(this.cpf.charAt(i)));
+            int digit = Integer.parseInt(Character.toString(this.cpfNumber.charAt(i)));
             sum += (10 - i) * digit;
         }
 
@@ -52,7 +61,7 @@ public class ValidateCpf {
     private void calculateSecondCheckDigit() {
         int sum = 0;
         for (int i = 0; i < 10; i++) {
-            int digit = Integer.parseInt(Character.toString(cpf.charAt(i)));
+            int digit = Integer.parseInt(Character.toString(cpfNumber.charAt(i)));
             sum += (11 - i) * digit;
         }
 
@@ -66,7 +75,7 @@ public class ValidateCpf {
 
     private void compareCheckDigits() {
         if (!isCheckDigitValid()) {
-            throw new InvalidCpfException("Invalid CPF");
+            throw new NotValidException("Invalid CPF");
         }
     }
 
@@ -75,11 +84,11 @@ public class ValidateCpf {
     }
 
     private boolean verifyFirstCheckDigit() {
-        return firstCheckDigit == Integer.parseInt(Character.toString(cpf.charAt(9)));
+        return firstCheckDigit == Integer.parseInt(Character.toString(cpfNumber.charAt(9)));
     }
 
     private boolean verifySecondCheckDigit() {
-        return secondCheckDigit == Integer.parseInt(Character.toString(cpf.charAt(10)));
+        return secondCheckDigit == Integer.parseInt(Character.toString(cpfNumber.charAt(10)));
     }
 
 }

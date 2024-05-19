@@ -1,5 +1,6 @@
 package com.pede.ai.infra.commons.mappers;
 
+import com.pede.ai.core.commons.Cpf;
 import com.pede.ai.core.domain.customer.DomainCustomer;
 import com.pede.ai.infra.entities.CustomerEntity;
 import com.pede.ai.infra.inbounds.dtos.CustomerDto;
@@ -10,7 +11,7 @@ public class CustomerMapper {
     return new CustomerEntity(
             domainCustomer.name(),
             domainCustomer.email(),
-            domainCustomer.cpf(),
+            domainCustomer.cpf().getCpfNumber(),
             domainCustomer.createdAt()
           );
   }
@@ -20,7 +21,7 @@ public class CustomerMapper {
             customerEntity.id,
             customerEntity.name,
             customerEntity.email,
-            customerEntity.cpf,
+            new Cpf(customerEntity.cpf),
             customerEntity.createdAt
     );
   }
@@ -29,7 +30,7 @@ public class CustomerMapper {
     return new CustomerDto(
             domainCustomer.name(),
             domainCustomer.email(),
-            domainCustomer.cpf(),
+            domainCustomer.cpf().getCpfNumber(),
             domainCustomer.createdAt()
     );
   }
