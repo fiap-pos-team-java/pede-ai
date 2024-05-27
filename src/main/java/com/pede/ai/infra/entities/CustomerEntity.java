@@ -43,7 +43,6 @@ public class CustomerEntity {
   @Column(name = "DES_EMAIL")
   public String email;
 
-//  @CPF
   @Column(name = "DES_CPF")
   public String cpf;
 
