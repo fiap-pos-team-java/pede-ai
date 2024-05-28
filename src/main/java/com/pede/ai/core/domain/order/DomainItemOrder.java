@@ -1,7 +1,5 @@
 package com.pede.ai.core.domain.order;
 
-import com.pede.ai.core.domain.product.DomainProduct;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

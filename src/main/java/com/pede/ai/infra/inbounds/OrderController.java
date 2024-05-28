@@ -8,7 +8,6 @@ import com.pede.ai.infra.inbounds.dtos.OrderDto;
 import com.pede.ai.infra.inbounds.forms.ItemOrderForm;
 import com.pede.ai.infra.inbounds.forms.OrderForm;
 import com.pede.ai.infra.commons.mappers.OrderMapper;
-import com.pede.ai.infra.services.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +24,6 @@ public class OrderController {
   private IOrderManager orderManager;
 
   @Autowired
-  private IOrderService orderService;
-
-  @Autowired
   private ProductRepositoryAdapter productRepositoryAdapter;
 
   @PostMapping("/")
@@ -42,9 +38,8 @@ public class OrderController {
       BigDecimal totalPrice = BigDecimal.valueOf(amount).multiply(product.price()) ;
       domainItemOrdeList.add(itemOrderForm.toDomain(totalPrice));
     }
-    orderManager.save(orderForm.toDomain(domainItemOrdeList));
 
-    OrderDto orderDto = orderService.formToDto(orderForm);
+    OrderDto orderDto = OrderMapper.toDto(orderManager.save(orderForm.toDomain(domainItemOrdeList)));
     return ResponseEntity.ok().body(orderDto);
   }
 

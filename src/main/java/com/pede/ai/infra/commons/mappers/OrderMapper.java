@@ -1,9 +1,11 @@
 package com.pede.ai.infra.commons.mappers;
 
+import com.pede.ai.core.domain.customer.DomainCustomer;
 import com.pede.ai.core.domain.order.DomainOrder;
 import com.pede.ai.core.domain.product.DomainProduct;
 import com.pede.ai.infra.entities.ItemOrderEntity;
 import com.pede.ai.infra.entities.OrderEntity;
+import com.pede.ai.infra.inbounds.dtos.CustomerDto;
 import com.pede.ai.infra.inbounds.dtos.OrderDto;
 
 import java.util.List;
@@ -23,10 +25,18 @@ public class OrderMapper {
 
     public static OrderEntity toEntity(DomainOrder domainOrder) {
         return new OrderEntity(
-                domainOrder.id(),
                 domainOrder.status(),
                 domainOrder.custumerCpf(),
-                ProductMapper.toEntityList(domainOrder.productList()),
+                ItemOrderMapper.toEntityList(domainOrder.productList()),
+                domainOrder.createdAt()
+        );
+    }
+
+    public static OrderDto toDto(DomainOrder domainOrder) {
+        return new OrderDto(
+                domainOrder.status(),
+                domainOrder.custumerCpf(),
+                ItemOrderMapper.toDtoList(domainOrder.productList()),
                 domainOrder.createdAt()
         );
     }

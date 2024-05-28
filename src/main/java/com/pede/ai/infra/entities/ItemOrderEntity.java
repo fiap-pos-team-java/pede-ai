@@ -1,49 +1,61 @@
 package com.pede.ai.infra.entities;
 
-import com.pede.ai.core.commons.enums.OrderStatusType;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
-import static com.pede.ai.infra.entities.OrderEntity.TABLE_NAME;
+import static com.pede.ai.infra.entities.ItemOrderEntity.TABLE_NAME;
 
 @Entity
 @Table(name = TABLE_NAME)
 public class ItemOrderEntity {
 
-    final static String TABLE_NAME = "ITEM_ORDER";
+    final static String TABLE_NAME = "ITEMS";
 
     public ItemOrderEntity(
-            Long id,
             BigDecimal totalPrice,
             Integer amount,
+            Long productId,
             OrderEntity order,
+            LocalDateTime createdAt
+    ) {
+        this.totalPrice = totalPrice;
+        this.amount = amount;
+        this.productId = productId;
+        this.order = order;
+        this.createdAt = createdAt;
+    }
+
+    public ItemOrderEntity(
+            BigDecimal totalPrice,
+            Integer amount,
             Long productId,
             LocalDateTime createdAt
     ) {
-        this.id = id;
         this.totalPrice = totalPrice;
         this.amount = amount;
-        this.order = order;
         this.productId = productId;
         this.createdAt = createdAt;
     }
 
+    public ItemOrderEntity() {
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "IDT_ITEM")
+    public Long id;
 
-    private BigDecimal totalPrice;
-    private Integer amount;
+    public BigDecimal totalPrice;
+    public Integer amount;
 
     @ManyToOne
-    @JoinColumn(name="order_id")
-    private OrderEntity order;
+    @JoinColumn(name="order_id", nullable = true)
+    public OrderEntity order;
 
-    private Long productId;
-    private LocalDateTime createdAt;
+    public Long productId;
+    public LocalDateTime createdAt;
 
     public Long getId() {
         return id;

@@ -10,9 +10,8 @@ import java.util.List;
 import java.util.Set;
 
 public record OrderDto(
-        Long id,
         OrderStatusType status,
-        DomainCustomer custumer,
+        String custumerCpf,
         List<ItemOrderDto> productList,
         LocalDateTime createdAt
 ) {

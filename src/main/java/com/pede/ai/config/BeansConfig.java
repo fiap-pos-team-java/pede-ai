@@ -12,9 +12,7 @@ import com.pede.ai.core.ports.outbound.IProductRepositoryPort;
 import com.pede.ai.infra.adapters.CustomerRepositoryAdapter;
 import com.pede.ai.infra.adapters.OrderRepositoryAdapter;
 import com.pede.ai.infra.adapters.ProductRepositoryAdapter;
-import com.pede.ai.infra.services.IOrderService;
 import com.pede.ai.infra.services.IProductService;
-import com.pede.ai.infra.services.OrderService;
 import com.pede.ai.infra.services.ProductService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,8 +46,5 @@ public class BeansConfig {
 
     @Bean
     public IProductService productService() { return new ProductService(); }
-
-    @Bean
-    public IOrderService orderService() { return new OrderService(); }
 
 }

@@ -10,10 +10,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record ItemOrderDto(
-        Long id,
         BigDecimal totalPrice,
         Integer amount,
-        DomainProduct product,
+        Long product,
         LocalDateTime createdAt
 ) {
 }

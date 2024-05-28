@@ -23,12 +23,6 @@ public abstract class ProductMapper {
           );
   }
 
-  public static List<ItemOrderEntity> toEntityList(List<DomainItemOrder> domainItemOrderList) {
-    return domainItemOrderList.stream()
-            .map(ItemOrderMapper::toEntity)
-            .collect(Collectors.toList());
-  }
-
   public static DomainProduct toDomain(ProductEntity productEntity) {
     return new DomainProduct(
             productEntity.id,
