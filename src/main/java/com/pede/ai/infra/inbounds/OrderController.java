@@ -4,10 +4,13 @@ import com.pede.ai.core.domain.order.DomainItemOrder;
 import com.pede.ai.core.domain.product.DomainProduct;
 import com.pede.ai.core.ports.inbound.IOrderManager;
 import com.pede.ai.infra.adapters.ProductRepositoryAdapter;
+import com.pede.ai.infra.commons.mappers.ProductMapper;
 import com.pede.ai.infra.inbounds.dtos.OrderDto;
+import com.pede.ai.infra.inbounds.dtos.ProductDto;
 import com.pede.ai.infra.inbounds.forms.ItemOrderForm;
 import com.pede.ai.infra.inbounds.forms.OrderForm;
 import com.pede.ai.infra.commons.mappers.OrderMapper;
+import com.pede.ai.infra.services.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,23 +27,25 @@ public class OrderController {
   private IOrderManager orderManager;
 
   @Autowired
-  private ProductRepositoryAdapter productRepositoryAdapter;
+  private IOrderService orderService;
 
   @PostMapping("/")
   public ResponseEntity<OrderDto> sendOrder(
     @RequestBody OrderForm orderForm
   ) {
-    List<ItemOrderForm> itemOrderFormList = orderForm.productList();
-    List<DomainItemOrder> domainItemOrdeList = new ArrayList<>();
-    for(ItemOrderForm itemOrderForm : itemOrderFormList) {
-      int amount = itemOrderForm.amount();
-      DomainProduct product = productRepositoryAdapter.getById(itemOrderForm.productId());
-      BigDecimal totalPrice = BigDecimal.valueOf(amount).multiply(product.price()) ;
-      domainItemOrdeList.add(itemOrderForm.toDomain(totalPrice));
-    }
+    OrderDto orderDto = OrderMapper.toDto(
+            orderManager.save(orderForm.toDomain(orderService.convertDomainItemOrder(orderForm.productList()))));
 
-    OrderDto orderDto = OrderMapper.toDto(orderManager.save(orderForm.toDomain(domainItemOrdeList)));
     return ResponseEntity.ok().body(orderDto);
+  }
+
+  @GetMapping("/")
+  public ResponseEntity<List<OrderDto>> getAllOrders() {
+    List<OrderDto> orders = orderManager.getAll().stream()
+            .map(OrderMapper::toDto)
+            .toList();
+
+    return ResponseEntity.ok().body(orders);
   }
 
 }

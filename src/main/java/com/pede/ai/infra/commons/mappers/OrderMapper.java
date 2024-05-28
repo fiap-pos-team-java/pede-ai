@@ -23,6 +23,16 @@ public class OrderMapper {
         );
     }
 
+    public static DomainOrder toDomainList(OrderEntity orderEntity) {
+        return new DomainOrder(
+                orderEntity.getId(),
+                orderEntity.getStatus(),
+                orderEntity.getCustomerCpf(),
+                ItemOrderMapper.toDomainList(orderEntity.getItems()),
+                orderEntity.getCreatedAt()
+        );
+    }
+
     public static OrderEntity toEntity(DomainOrder domainOrder) {
         return new OrderEntity(
                 domainOrder.status(),

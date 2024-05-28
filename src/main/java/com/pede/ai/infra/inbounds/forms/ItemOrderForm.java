@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 public record ItemOrderForm(
         Integer amount,
         Long productId,
-        Long orderId,
         String notes
 ) {
 
