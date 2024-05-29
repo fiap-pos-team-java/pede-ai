@@ -4,7 +4,7 @@ services:
 
   app:
     container_name: pedeai-api
-    build: .
+    build: rampazzofelipe/pede-ai
     restart: always
     environment:
       - APPLICATION_PROFILE=dev
