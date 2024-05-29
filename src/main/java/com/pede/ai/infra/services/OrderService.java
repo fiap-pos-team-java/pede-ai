@@ -3,7 +3,6 @@ package com.pede.ai.infra.services;
 import com.pede.ai.core.domain.order.DomainItemOrder;
 import com.pede.ai.core.domain.product.DomainProduct;
 import com.pede.ai.core.ports.inbound.IOrderManager;
-import com.pede.ai.core.ports.inbound.IProductManager;
 import com.pede.ai.infra.adapters.ProductRepositoryAdapter;
 import com.pede.ai.infra.inbounds.forms.ItemOrderForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import java.util.List;
 public class OrderService implements IOrderService {
 
     @Autowired
-    private IOrderManager porderManager;
+    private IOrderManager orderManager;
 
     @Autowired
     private ProductRepositoryAdapter productRepositoryAdapter;

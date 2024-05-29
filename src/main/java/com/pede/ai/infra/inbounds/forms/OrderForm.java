@@ -9,7 +9,7 @@ import java.util.List;
 
 public record OrderForm(
         OrderStatusType status,
-        String custumerCpf,
+        String customerCpf,
         List<ItemOrderForm> productList
 ) {
 
@@ -18,7 +18,7 @@ public record OrderForm(
             new DomainOrder(
                     null,
                     this.status,
-                    this.custumerCpf,
+                    this.customerCpf,
                     itemOrderForm,
                     LocalDateTime.now()
             );
