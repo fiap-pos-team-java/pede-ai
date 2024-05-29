@@ -1,6 +1,8 @@
 package com.pede.ai.infra.commons.handlers;
 
 import com.pede.ai.core.exceptions.CommitException;
+import com.pede.ai.core.exceptions.NotValidException;
+import com.pede.ai.core.exceptions.NotFoundException;
 import com.pede.ai.infra.commons.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,32 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(CommitException.class)
     public ResponseEntity<ErrorMessage> commitExceptionHandler(
             CommitException exception,
+            WebRequest webRequest
+    ) {
+        ErrorMessage errorMessage = new ErrorMessage();
+        errorMessage.setMessage(exception.getMessage());
+        errorMessage.setHttpStatus(HttpStatus.BAD_REQUEST);
+        errorMessage.setThrownAt(LocalDateTime.now());
+
+        return ResponseEntity.status(errorMessage.getHttpStatus().value()).body(errorMessage);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorMessage> notFoundExceptionHandler(
+            NotFoundException exception,
+            WebRequest webRequest
+    ) {
+        ErrorMessage errorMessage = new ErrorMessage();
+        errorMessage.setMessage(exception.getMessage());
+        errorMessage.setHttpStatus(HttpStatus.NOT_FOUND);
+        errorMessage.setThrownAt(LocalDateTime.now());
+
+        return ResponseEntity.status(errorMessage.getHttpStatus().value()).body(errorMessage);
+    }
+
+    @ExceptionHandler(NotValidException.class)
+    public ResponseEntity<ErrorMessage> invalidCpfException(
+            NotValidException exception,
             WebRequest webRequest
     ) {
         ErrorMessage errorMessage = new ErrorMessage();

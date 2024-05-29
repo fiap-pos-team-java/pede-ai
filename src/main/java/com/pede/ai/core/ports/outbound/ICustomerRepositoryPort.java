@@ -7,4 +7,5 @@ import java.util.List;
 public interface ICustomerRepositoryPort {
     DomainCustomer save(DomainCustomer domainCustomer);
     List<DomainCustomer> getAll();
+    DomainCustomer getByCpf(String cpf);
 }

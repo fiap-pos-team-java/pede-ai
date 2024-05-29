@@ -3,6 +3,7 @@ package com.pede.ai.infra.adapters;
 import com.pede.ai.core.domain.customer.DomainCustomer;
 import com.pede.ai.core.ports.outbound.ICustomerRepositoryPort;
 import com.pede.ai.core.exceptions.CommitException;
+import com.pede.ai.core.exceptions.NotFoundException;
 import com.pede.ai.infra.commons.mappers.CustomerMapper;
 import com.pede.ai.infra.outbounds.ICustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,4 +34,14 @@ public class CustomerRepositoryAdapter implements ICustomerRepositoryPort {
             .map(CustomerMapper::toDomain)
             .toList();
   }
+
+  @Override
+  public DomainCustomer getByCpf(String cpf) {
+    return customerRepository.findByCpf(cpf)
+            .stream()
+            .map(CustomerMapper::toDomain)
+            .findFirst()
+            .orElseThrow(() -> new NotFoundException(String.format("CPF %s not found", cpf)));
+  }
+
 }

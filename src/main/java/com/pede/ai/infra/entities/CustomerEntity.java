@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 
+
 import java.time.LocalDateTime;
 
 import static com.pede.ai.infra.entities.CustomerEntity.TABLE_NAME;

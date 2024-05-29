@@ -8,5 +8,6 @@ public interface ICustomerManager {
 
   DomainCustomer save(DomainCustomer domainCustomer);
   List<DomainCustomer> getAll();
+  DomainCustomer getByCpf(String cpf);
 
 }

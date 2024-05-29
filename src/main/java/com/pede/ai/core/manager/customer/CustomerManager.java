@@ -23,4 +23,7 @@ public class CustomerManager implements ICustomerManager {
       return iCustomerRepositoryPort.getAll();
     }
 
+    @Override
+    public DomainCustomer getByCpf(String cpf) { return iCustomerRepositoryPort.getByCpf(cpf); }
+
 }
